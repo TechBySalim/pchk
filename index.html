@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheque Printing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .creator-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .creator-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+        }
+
+        .modal-image {
+            width: 40%;
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .modal-image i {
+            font-size: 5rem;
+            color: white;
+        }
+
+        .modal-info {
+            width: 60%;
+            padding: 30px;
+        }
+
+        .modal-info h2 {
+            margin-bottom: 20px;
+            color: #1a2980;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .info-item i {
+            width: 30px;
+            color: #26d0ce;
+            font-size: 1.2rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-section {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .input-section input,
+        .input-section button {
+            padding: 12px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .input-section input {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .input-section button {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .input-section button:hover {
+            opacity: 0.8;
+        }
+
+        /* Cheque box */
+        .cheque {
+            position: relative;
+            width: 19cm;
+            /* Standard cheque width */
+            height: 8.5cm;
+            /* Standard cheque height */
+            background: white;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding: 20px;
+            color: #333;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cheque-date {
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            font-size: 16px;
+        }
+
+        .cheque-name {
+            position: absolute;
+            top: 90px;
+            left: 100px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .cheque-words {
+            position: absolute;
+            top: 120px;
+            left: 100px;
+            width: 60%;
+            font-size: 16px;
+            font-weight: bold;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .cheque-amount {
+            position: absolute;
+            top: 120px;
+            right: 100px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        /* Print Settings */
+        @media print {
+            @page {
+                size: 19cm 8.5cm;
+                /* Exact cheque size */
+                margin: 0;
+                orientation: landscape;
+            }
+
+            body {
+                background: transparent;
+                width: 19cm;
+                height: 8.5cm;
+                margin: 0;
+                padding: 0;
+            }
+
+            header,
+            .input-section {
+                display: none;
+            }
+
+            #cheque {
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: 0;
+                padding: 20px;
+                width: 19cm;
+                height: 8.5cm;
+                background: white;
+                border: none;
+                box-shadow: none;
+                /* transform: rotate(-90deg); */
+                /* Ensure no rotation */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-title">Easy Cheque Print</div>
+        <button class="creator-btn" id="creatorBtn">Create By</button>
+    </header>
+
+    <!-- Creator Modal -->
+    <div class="modal" id="creatorModal">
+        <div class="modal-content">
+            <div class="modal-image">
+                <!-- <i class="fas fa-user-tie"></i> -->
+                <img src="asset/image.png" alt="">
+            </div>
+            <div class="modal-info">
+                <span class="close-btn" id="closeModal">&times;</span>
+                <h2>Creator Information</h2>
+                <div class="info-item">
+                    <i class="fas fa-user"></i>
+                    <span>Salim Ahmed</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>salim11bd@gmail.com</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+8801739856638</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-building"></i>
+                    <span>Pubali Bank PLC.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- ===== INPUTS FOR CHEQUE DETAILS ===== -->
+        <div class="input-section">
+            <input type="text" id="name" placeholder="Enter Payee Name">
+            <input type="date" id="date" placeholder="Select Date">
+            <input type="number" id="amount" placeholder="Enter Amount (৳)">
+            <button id="generateBtn">Generate Cheque</button>
+            <button id="printBtn">Print Cheque</button>
+        </div>
+
+        <!-- ===== CHEQUE PREVIEW SECTION ===== -->
+        <div class="cheque" id="cheque">
+            <div class="cheque-date" id="cheque-date"></div>
+            <div class="cheque-name" id="cheque-name"></div>
+            <div class="cheque-words" id="cheque-words"></div>
+            <div class="cheque-amount" id="cheque-amount"></div>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPT TO UPDATE CHEQUE ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add event listeners
+            document.getElementById('generateBtn').addEventListener('click', generateCheque);
+            document.getElementById('printBtn').addEventListener('click', printCheque);
+            document.getElementById('creatorBtn').addEventListener('click', openModal);
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function (event) {
+                if (event.target === document.getElementById('creatorModal')) {
+                    closeModal();
+                }
+            });
+        });
+
+        function openModal() {
+            document.getElementById('creatorModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('creatorModal').style.display = 'none';
+        }
+
+        function generateCheque() {
+            const name = document.getElementById('name').value;
+            const date = document.getElementById('date').value;
+            const amount = document.getElementById('amount').value;
+
+            if (!name || !date || !amount) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            const formattedDate = formatDate(date);
+
+            document.getElementById('cheque-name').innerText = name;
+            document.getElementById('cheque-date').innerText = formattedDate;
+            document.getElementById('cheque-amount').innerText = "= " + parseFloat(amount).toFixed(2);
+
+            const amountInWords = numberToWords(amount) + " Taka Only";
+            document.getElementById('cheque-words').innerText = amountInWords;
+
+            adjustAmountPosition();
+        }
+
+        function adjustAmountPosition() {
+            const wordsElement = document.getElementById('cheque-words');
+            const amountElement = document.getElementById('cheque-amount');
+
+            wordsElement.style.top = '120px';
+            amountElement.style.top = '120px';
+
+            const wordsHeight = wordsElement.offsetHeight;
+            const wordsTop = parseInt(wordsElement.style.top);
+
+            if (wordsHeight > 24) {
+                amountElement.style.top = (wordsTop + wordsHeight - 24) + 'px';
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+
+        function printCheque() {
+            if (!document.getElementById('cheque-name').innerText) {
+                alert('Please generate a cheque first');
+                return;
+            }
+
+            // Create a print-specific stylesheet
+            const printStyle = document.createElement('style');
+            printStyle.innerHTML = `
+        @page {
+          size: 19cm 8.5cm;
+          margin: 0;
+        }
+        body {
+          width: 19cm;
+          height: 8.5cm;
+        }
+        #cheque {
+          width: 19cm;
+          height: 8.5cm;
+        }
+      `;
+            document.head.appendChild(printStyle);
+
+            window.print();
+
+            // Remove the print styles after printing
+            setTimeout(() => {
+                document.head.removeChild(printStyle);
+            }, 1000);
+        }
+
+        function numberToWords(num) {
+            if (!num || isNaN(num)) return "";
+            num = parseFloat(num);
+            if (num == 0) return "Zero";
+
+            const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven',
+                'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+            if (num < 20) return a[Math.floor(num)];
+
+            let str = '';
+            if (num < 100) {
+                str = b[Math.floor(num / 10)];
+                if (num % 10 !== 0) str += ' ' + a[Math.floor(num % 10)];
+                return str;
+            }
+
+            if (num < 1000) {
+                str = a[Math.floor(num / 100)] + ' Hundred';
+                if (num % 100 !== 0) str += ' ' + numberToWords(num % 100);
+                return str;
+            }
+
+            if (num < 100000) {
+                str = numberToWords(Math.floor(num / 1000)) + ' Thousand';
+                if (num % 1000 !== 0) str += ' ' + numberToWords(num % 1000);
+                return str;
+            }
+
+            if (num < 10000000) {
+                str = numberToWords(Math.floor(num / 100000)) + ' Lac';
+                if (num % 100000 !== 0) str += ' ' + numberToWords(num % 100000);
+                return str;
+            }
+
+            str = numberToWords(Math.floor(num / 10000000)) + ' Crore';
+            if (num % 10000000 !== 0) str += ' ' + numberToWords(num % 10000000);
+            return str;
+        }
+    </script>
+</body>
+
+</html>
