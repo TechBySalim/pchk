@@ -193,7 +193,7 @@
 
         .cheque-name {
             position: absolute;
-            top: 90px;
+            top: 115px;
             left: 100px;
             font-size: 16px;
             font-weight: bold;
@@ -212,7 +212,7 @@
 
         .cheque-amount {
             position: absolute;
-            top: 120px;
+            top: 140px;
             right: 100px;
             font-size: 16px;
             font-weight: bold;
@@ -262,7 +262,7 @@
 <body>
     <header>
         <div class="header-title">Easy Cheque Print</div>
-        <button class="creator-btn" id="creatorBtn">Create By</button>
+        <button class="creator-btn" id="creatorBtn">About me</button>
     </header>
 
     <!-- Creator Modal -->
@@ -303,6 +303,7 @@
             <input type="number" id="amount" placeholder="Enter Amount (৳)">
             <button id="generateBtn">Generate Cheque</button>
             <button id="printBtn">Print Cheque</button>
+            <button id="clearBtn">Clear Data</button>
         </div>
 
         <!-- ===== CHEQUE PREVIEW SECTION ===== -->
@@ -365,8 +366,8 @@
             const wordsElement = document.getElementById('cheque-words');
             const amountElement = document.getElementById('cheque-amount');
 
-            wordsElement.style.top = '120px';
-            amountElement.style.top = '120px';
+            wordsElement.style.top = '150px';
+            amountElement.style.top = '170px';
 
             const wordsHeight = wordsElement.offsetHeight;
             const wordsTop = parseInt(wordsElement.style.top);
