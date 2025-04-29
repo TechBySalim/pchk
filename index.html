@@ -321,6 +321,8 @@
             // Add event listeners
             document.getElementById('generateBtn').addEventListener('click', generateCheque);
             document.getElementById('printBtn').addEventListener('click', printCheque);
+            // Add clear button listener
+            document.getElementById('clearBtn').addEventListener('click', clearData);
             document.getElementById('creatorBtn').addEventListener('click', openModal);
             document.getElementById('closeModal').addEventListener('click', closeModal);
 
@@ -457,6 +459,22 @@
             if (num % 10000000 !== 0) str += ' ' + numberToWords(num % 10000000);
             return str;
         }
+
+
+        function clearData() {
+            // Clear input fields
+            document.getElementById('name').value = '';
+            document.getElementById('date').value = '';
+            document.getElementById('amount').value = '';
+
+            // Clear cheque preview
+            document.getElementById('cheque-name').innerText = '';
+            document.getElementById('cheque-date').innerText = '';
+            document.getElementById('cheque-words').innerText = '';
+            document.getElementById('cheque-amount').innerText = '';
+        }
+
+
     </script>
 </body>
 
