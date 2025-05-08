@@ -1,0 +1,250 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    color: #333;
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+header {
+    background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.creator-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.creator-btn:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.01);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+}
+
+.modal-image {
+    width: 40%;
+    background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.modal-image i {
+    font-size: 5rem;
+    color: white;
+}
+
+.modal-info {
+    width: 60%;
+    padding: 30px;
+}
+
+.modal-info h2 {
+    margin-bottom: 20px;
+    color: #1a2980;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.info-item i {
+    width: 30px;
+    color: #26d0ce;
+    font-size: 1.2rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-section {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.input-section input,
+.input-section button {
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 8px;
+    border: none;
+}
+
+.input-section input {
+    background: white;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.input-section button {
+    background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.input-section button:hover {
+    opacity: 0.8;
+}
+
+/* Cheque box */
+.cheque {
+    position: relative;
+    width: 19cm;
+    /* Standard cheque width */
+    height: 8.5cm;
+    /* Standard cheque height */
+    background: white;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding: 20px;
+    color: #333;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cheque-date {
+    position: absolute;
+    top: 62px;
+    right: 110px;
+    font-size: 16px;
+    font-weight: bold
+}
+
+.cheque-name {
+    position: absolute;
+    top: 115px;
+    left: 100px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.cheque-words {
+    position: absolute;
+    top: 120px;
+    left: 100px;
+    width: 60%;
+    font-size: 16px;
+    font-weight: bold;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.cheque-amount {
+    position: absolute;
+    top: 140px;
+    right: 100px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* Print Settings */
+@media print {
+    @page {
+        size: 19cm 8.5cm;
+        /* Exact cheque size */
+        margin: 0;
+        orientation: landscape;
+    }
+
+    body {
+        background: transparent;
+        width: 19cm;
+        height: 8.5cm;
+        margin: 0;
+        padding: 0;
+    }
+
+    header,
+    .input-section {
+        display: none;
+    }
+
+    #cheque {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 20px;
+        width: 19cm;
+        height: 8.5cm;
+        background: white;
+        border: none;
+        box-shadow: none;
+        /* transform: rotate(-90deg); */
+        /* Ensure no rotation */
+    }
+}
