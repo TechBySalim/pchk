@@ -218,6 +218,8 @@ header {
         /* Exact cheque size */
         margin: 0;
         orientation: landscape;
+        margin: 0;
+        padding: 0;
     }
 
     body {
