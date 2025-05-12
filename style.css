@@ -217,9 +217,9 @@ header {
         size: 19cm 8.5cm;
         /* Exact cheque size */
         margin: 0;
-        orientation: landscape;
-        margin: 0;
         padding: 0;
+        top: 0;
+        orientation: landscape;
     }
 
     body {
