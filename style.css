@@ -177,7 +177,7 @@ header {
 
 .cheque-date {
     position: absolute;
-    top: 62px;
+    top: 60px;
     right: 110px;
     font-size: 16px;
     font-weight: bold
@@ -194,7 +194,7 @@ header {
 .cheque-words {
     position: absolute;
     top: 120px;
-    left: 100px;
+    left: 110px;
     width: 60%;
     font-size: 16px;
     font-weight: bold;
@@ -204,7 +204,7 @@ header {
 
 .cheque-amount {
     position: absolute;
-    top: 140px;
+    top: 130px;
     right: 100px;
     font-size: 16px;
     font-weight: bold;
