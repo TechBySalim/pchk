@@ -50,8 +50,8 @@ function adjustAmountPosition() {
     const wordsElement = document.getElementById('cheque-words');
     const amountElement = document.getElementById('cheque-amount');
 
-    wordsElement.style.top = '150px';
-    amountElement.style.top = '170px';
+    wordsElement.style.top = '147px';
+    amountElement.style.top = '165px';
 
     const wordsHeight = wordsElement.offsetHeight;
     const wordsTop = parseInt(wordsElement.style.top);
